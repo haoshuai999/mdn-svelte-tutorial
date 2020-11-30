@@ -1,6 +1,4 @@
-<!-- Todos.svelte -->
 <div class="todoapp stack-large">
-
     <!-- NewTodo -->
     <form>
       <h2 class="label-wrapper">
