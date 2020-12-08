@@ -21,6 +21,11 @@
     newTodoName = ''
   }
 
+  function updateTodo(todo) {
+    const i = todos.findIndex(t => t.id === todo.id)
+    todos[i] = { ...todos[i], ...todo }
+  }
+
   let filter = 'all'
   const filterTodos = (filter, todos) => 
     filter === 'active' ? todos.filter(t => !t.completed) :
@@ -55,7 +60,10 @@
   <ul role="list" class="todo-list stack-large" aria-labelledby="list-heading">
   {#each filterTodos(filter, todos) as todo (todo.id)}
     <li class="todo">
-      <Todo {todo} on:remove={e => removeTodo(e.detail)} />
+      <Todo {todo} 
+        on:update={e => updateTodo(e.detail)}
+        on:remove={e => removeTodo(e.detail)} 
+      />
     </li>
   {:else}
     <li>Nothing to do here!</li>
