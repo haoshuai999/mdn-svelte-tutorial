@@ -4,16 +4,17 @@
   import Todo from './Todo.svelte'
   import MoreActions from './MoreActions.svelte'
   import NewTodo from './NewTodo.svelte'
+  import TodosStatus from './TodosStatus.svelte'
 
   export let todos = []
   
-  $: newTodoId = totalTodos ? Math.max(...todos.map(t => t.id)) + 1 : 1
+  $: newTodoId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1
 
-  $: totalTodos = todos.length
-  $: completedTodos = todos.filter(todo => todo.completed).length
+  let todosStatus                   // reference to TodosStatus instance
 
   function removeTodo(todo) {
     todos = todos.filter(t => t.id !== todo.id)
+    todosStatus.focus()
   }
 
   function addTodo(name) {
@@ -43,13 +44,13 @@
 <div class="todoapp stack-large">
 
   <!-- NewTodo -->
-  <NewTodo on:addTodo={e => addTodo(e.detail)} />
+  <NewTodo autofocus on:addTodo={e => addTodo(e.detail)} />
 
   <!-- Filter -->
   <FilterButton bind:filter />
 
   <!-- TodosStatus -->
-  <h2 id="list-heading">{completedTodos} out of {totalTodos} items completed</h2>
+  <TodosStatus bind:this={todosStatus} {todos} />
 
   <!-- Todos -->
   <ul role="list" class="todo-list stack-large" aria-labelledby="list-heading">
