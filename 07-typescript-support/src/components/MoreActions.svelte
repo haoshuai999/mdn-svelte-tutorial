@@ -1,9 +1,11 @@
 <!-- components/MoreActions.svelte -->
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let todos
+  import type { TodoType } from '../types/todo.type'
+
+  export let todos: TodoType[]
 
   let completed = true
 
@@ -14,7 +16,7 @@
 
   const removeCompleted = () => dispatch('removeCompleted')
 
-  $: completedTodos = todos.filter(t => t.completed).length
+  $: completedTodos = todos.filter((t: TodoType) => t.completed).length
 </script>
 
 <div class="btn-group">
